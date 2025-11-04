@@ -3,90 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive ke liye -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.auth-container {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
 
-h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
-}
+        .auth-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+        }
 
-.auth-form {
-    display: flex;
-    flex-direction: column;
-}
+        h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
 
-.form-group {
-    margin-bottom: 1rem;
-    text-align: left;
-}
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #555;
-}
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
 
-.form-group input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* Important for padding */
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+        }
 
-.auth-button {
-    background-color: #007bff;
-    color: white;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
 
-.auth-button:hover {
-    background-color: #0056b3;
-}
+        .auth-button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.switch-link {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-}
+        .auth-button:hover {
+            background-color: #0056b3;
+        }
 
-.switch-link a {
-    color: #007bff;
-    text-decoration: none;
-}
+        .switch-link {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
 
-</style>
-<body>
-   <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-K8">
-    <title>Register (Local)</title>
-    <link rel="stylesheet" href="style.css">
+        .switch-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .switch-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile view ke liye special adjust */
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .form-group input {
+                font-size: 0.95rem;
+            }
+
+            .auth-button {
+                font-size: 0.95rem;
+                padding: 0.7rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="auth-container">
@@ -94,16 +116,16 @@ h2 {
         <form id="register-form" class="auth-form">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" required>
+                <input type="text" id="username" required placeholder="Enter username">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" required>
+                <input type="password" id="password" required placeholder="Enter password">
             </div>
             <button type="submit" class="auth-button">Register</button>
         </form>
         <p class="switch-link">
-            Pehle se account hai? <a href="/login.html">Login karein</a>
+            Pehle se account hai? <a href="login.html">Login karein</a>
         </p>
     </div>
 
@@ -111,20 +133,21 @@ h2 {
         const form = document.getElementById('register-form');
 
         form.addEventListener('submit', (e) => {
-            e.preventDefault(); // Form ko submit hone se roko
+            e.preventDefault();
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
 
-            // Check karo ki user pehle se hai ya nahi
+            if (!username || !password) {
+                alert('Please fill all fields!');
+                return;
+            }
+
             if (localStorage.getItem(username)) {
                 alert('Yeh username pehle se hai! Doosra try karein.');
             } else {
-                // User ko localStorage mein save karo (username ko key banakar)
                 localStorage.setItem(username, password);
-                
                 alert('Account successfully create ho gaya!');
-                // Login page par bhej do
                 window.location.href = 'login.html';
             }
         });
